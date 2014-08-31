@@ -1,0 +1,38 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+	</head>
+	<body>
+		<h1>MQTT Chat</h1>
+		/stkay@github/<input type="text" id="topic" />
+		<button id="subscribe">subscribe</button>
+		<br>
+			<input type="text" id="msg_input" style="width: 60px;"/>
+			<input type="text" id="name_input" />
+		<button id="publish">publish</button>
+	<div id="msg"></div>
+	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+	<script>
+		$(function(){
+			var socketio = io.connect('http://localhost:3000');
+
+			//受信
+			socketio.on("subscribe", function(data){
+				$('#msg').prepend(data.t + " " + data.m + "<br>");
+			});
+
+			//トピック変更
+			$('#subscribe').click(function(){
+				socketio.emit("select", $('#topic').val());
+			});
+
+			//送信
+			$('#publish').click(function(){
+				var msg = new Date().toLocaleTimeString() + " " + $('#msg_input').val() + ": " + $('#name_input').val();
+				socketio.emit("publish", msg);
+			});	
+		});
+	</script>
+</body>
+</html>

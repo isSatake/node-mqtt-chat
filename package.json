@@ -1,0 +1,8 @@
+{
+	"name": "node-mqtt-chat",
+	"version": "0.0.1",
+	"dependencies": {
+		"mqtt": "*",
+		"socket.io": "*"
+	}
+}
