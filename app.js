@@ -30,12 +30,14 @@ io.sockets.on('connection', function(socket){
 	socket.on('select', function(data){
 		topic = data;
 		mqtt.subscribe(default_topic + topic);
-		console.log('subscribe: ' + data);
+		console.log('subscribe: ' + default_topic + topic);
 	});
 });
 
 //受信
-mqtt.on('message', function(topic, data){
-	io.sockets.emit('subscribe', {t:topic,m:data});
+mqtt.on('message', function(sub_topic, data){
+	//mqtt.jsはdefault_topicのメッセージを全部受け取っちゃうので無理やりフィルタする
+	if(sub_topic != default_topic + topic) return;
+	io.sockets.emit('subscribe', {t:sub_topic,m:data});
 	console.log("sub : " + data);
 });

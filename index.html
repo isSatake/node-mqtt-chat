@@ -19,7 +19,7 @@
 
 			//受信
 			socketio.on("subscribe", function(data){
-				$('#msg').prepend(data.t + " " + data.m + "<br>");
+				$('#msg').prepend(data.m + "<br>");
 			});
 
 			//トピック変更
